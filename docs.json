@@ -1,11 +1,42 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "name": "Unseen Pay",
-  "theme": "mint",
+  "theme": "maple",
+  "name": "Unseen Pay Docs",
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg",
+    "href": "https://unseen.finance"
+  },
+  "favicon": "/favicon.svg",
   "colors": {
     "primary": "#7b2fff",
-    "light": "#faf5ff",
+    "light": "#c4b5fd",
     "dark": "#1a0a3d"
+  },
+  "appearance": {
+    "default": "system",
+    "strict": false
+  },
+  "fonts": {
+    "family": "Inter",
+    "heading": {
+      "family": "Inter",
+      "weight": 700
+    },
+    "body": {
+      "family": "Inter",
+      "weight": 400
+    }
+  },
+  "icons": {
+    "library": "lucide"
+  },
+  "background": {
+    "decoration": "gradient",
+    "color": {
+      "light": "#faf5ff",
+      "dark": "#0c0518"
+    }
   },
   "navbar": {
     "links": [
@@ -14,8 +45,12 @@
         "href": "https://unseen.finance"
       },
       {
-        "label": "Support",
-        "href": "https://unseen.finance"
+        "label": "npm — @unseen_fi/sdk",
+        "href": "https://www.npmjs.com/package/@unseen_fi/sdk"
+      },
+      {
+        "label": "npm — @unseen_fi/ui",
+        "href": "https://www.npmjs.com/package/@unseen_fi/ui"
       }
     ]
   },

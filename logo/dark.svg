@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 34" fill="none" role="img" aria-labelledby="ttl">
+  <title id="ttl">Unseen Pay</title>
+  <path fill="#c4b5fd" d="M16 4 3 10v12c0 6.075 13 17 13 17s13-10.925 13-17V10L16 4Z"/>
+  <path stroke="#1a0a3d" stroke-width="1.5" stroke-linejoin="round" d="M16 8 8 11.667V21c0 3.713 8 13.889 8 13.889S24 24.713 24 21v-9.333L16 8Z" fill="#7b2fff" fill-opacity="0.55"/>
+  <text x="44" y="23" fill="#f8fafc" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="700">
+    Unseen Pay
+  </text>
+</svg>

@@ -1,0 +1,22 @@
+/*
+  Unseen Pay — Mintlify tweaks. Targets stable hooks from:
+  https://www.mintlify.com/docs/customize/custom-scripts
+  Keep selectors minimal to reduce breakage across theme updates.
+*/
+
+#navbar {
+  border-bottom: 1px solid rgba(123, 47, 255, 0.1);
+}
+
+navbar-link {
+  transition: color 0.15s ease, opacity 0.15s ease;
+}
+
+[data-component-name="theme-toggle"] {
+  border-radius: 9999px;
+}
+
+nav-logo img {
+  max-height: 28px;
+  width: auto;
+}

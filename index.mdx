@@ -39,6 +39,13 @@ For production, **prefer creating payment sessions on your server** so your live
 
 Documentation is **Markdown/MDX files** in this repository. The sidebar and site settings are defined in **`docs/docs.json`** at the workspace root of this Mintlify content. Mintlify deploys from the Git branch you connect in the dashboard; if this site lives inside a monorepo, set **Documentation path** to `/docs` per [Monorepo setup](https://www.mintlify.com/docs/deploy/monorepo).
 
+<Note>
+  Visual identity comes from **`docs/docs.json`** (theme, palette, typography, logos) plus optional **`docs/style.css`**. Hosted assets live next to configuration (for example `docs/logo/light.svg`).
+  For authoring assistance in AI tools that support skills, Mintlify publishes discovery at **`https://www.mintlify.com/docs`**:  
+  `npx skills add https://www.mintlify.com/docs`  
+  (Use the `www` host; `https://mintlify.com/docs` may not expose the `.well-known` skills endpoint.)
+</Note>
+
 ## Next steps
 
 <CardGroup cols={2}>
