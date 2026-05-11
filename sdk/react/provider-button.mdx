@@ -1,0 +1,72 @@
+---
+title: React SDK — Provider & button
+description: UnseenProvider configuration and UnseenPayButton modal checkout with optional createPaymentSession.
+sidebarTitle: Provider & button
+---
+
+## UnseenProvider
+
+Wrap any subtree that consumes Unseen hooks or components.
+
+Props (see `UnseenProviderConfig`):
+
+| Prop | Purpose |
+| ---- | ------- |
+| `apiKey` | Optional bearer key for browser-created sessions. Omit in production storefronts — use `createPaymentSession` instead. |
+| `baseUrl` | HTTP origin used for REST calls (defaults to `https://unseen.finance`). |
+
+```tsx
+import { UnseenProvider, UnseenPayButton } from "@unseen_fi/ui";
+
+export function App() {
+  return (
+    <UnseenProvider baseUrl="https://unseen.finance">
+      <UnseenPayButton
+        amount={50_000_000}
+        reference="order_123"
+        description="Premium plan"
+      />
+    </UnseenProvider>
+  );
+}
+```
+
+## UnseenPayButton
+
+Opens a modal workflow: create payment → wallet picker (Phantom / Solflare / Backpack) → QR / deeplink → user confirms → polling verify loop.
+
+Important props (`UnseenPayButtonProps`):
+
+| Prop | Description |
+| ---- | ----------- |
+| `amount` | Amount in smallest token units |
+| `reference` | Stable internal order identifier |
+| `description` | Shown during checkout creation |
+| `mint`, `expiresIn` | Optional overrides |
+| **`createPaymentSession`** | `async (input) => PaymentResult` — **recommended** hook to server-side `@unseen_fi/sdk` |
+| Callbacks `onCreated`, `onSuccess`, `onError`, `onDismiss` |
+| Presentation: `label`, `className`, `disabled` |
+
+### Server-driven session creation
+
+```tsx
+<UnseenPayButton
+  amount={price}
+  reference={orderId}
+  createPaymentSession={async (payload) => {
+    const res = await fetch("/api/unseen/session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) throw new Error("Could not create session");
+    return res.json();
+  }}
+/>
+```
+
+The returned payload must expose at least `{ id, checkoutUrl, paymentToken?, ...fields used by callbacks }`.
+
+## Wallet logos
+
+Bundled picker references `/wallets/phantom-logo.jpg`, `/wallets/solflare-logo.svg`, and `/wallets/backpack-logo.svg`. Host copies under your app's `public/` directory or adjust asset URLs in release notes for your fork.

@@ -1,0 +1,76 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "name": "Unseen Pay",
+  "theme": "mint",
+  "colors": {
+    "primary": "#7b2fff",
+    "light": "#faf5ff",
+    "dark": "#1a0a3d"
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Website",
+        "href": "https://unseen.finance"
+      },
+      {
+        "label": "Support",
+        "href": "https://unseen.finance"
+      }
+    ]
+  },
+  "navigation": {
+    "groups": [
+      {
+        "group": "Get started",
+        "icon": "play",
+        "pages": [
+          "index",
+          "quickstart",
+          "concepts/architecture",
+          "concepts/environments",
+          "concepts/payment-lifecycle"
+        ]
+      },
+      {
+        "group": "Server SDK (@unseen_fi/sdk)",
+        "icon": "server",
+        "pages": [
+          "sdk/server/installation",
+          "sdk/server/client-payments",
+          "sdk/server/webhooks-verify",
+          "sdk/server/errors-types"
+        ]
+      },
+      {
+        "group": "React SDK (@unseen_fi/ui)",
+        "icon": "layout-template",
+        "pages": [
+          "sdk/react/installation",
+          "sdk/react/provider-button",
+          "sdk/react/hooks-wallets"
+        ]
+      },
+      {
+        "group": "Webhooks",
+        "icon": "webhook",
+        "pages": ["webhooks/overview"]
+      },
+      {
+        "group": "Guides",
+        "icon": "book-open",
+        "pages": ["guides/nextjs-checkout", "guides/webhooks-express"]
+      },
+      {
+        "group": "Support",
+        "icon": "life-buoy",
+        "pages": ["troubleshooting", "changelog"]
+      }
+    ]
+  },
+  "footer": {
+    "socials": {
+      "website": "https://unseen.finance"
+    }
+  }
+}

@@ -1,0 +1,15 @@
+---
+title: Troubleshooting
+description: Common integration errors across @unseen_fi/sdk and @unseen_fi/ui.
+sidebarTitle: Troubleshooting
+---
+
+| Symptom | Likely cause | Fix |
+| ------- | ----------- | --- |
+| `useUnseenConfig must be used inside UnseenProvider` | Hook outside wrapper | Wrap in `<UnseenProvider>`. |
+| `UnseenProvider apiKey is required ...` | Browser tries to create payment without key | Pass `createPaymentSession` or set `apiKey` for non-prod only. |
+| `Missing apiKey for merchant verify...` | Public verify without `paymentToken` | Ensure API returns `paymentToken` and pass to `verify`. |
+| Webhook verify always false | Using parsed JSON vs raw bytes | Use `express.raw` / equivalent and verify before `express.json()` |
+| Confirmation stuck polling | Blockchain delay / insufficient fee | Extend server-side retry windows; rely on webhooks |
+
+Run `mint validate` locally to catch stale MDX links after refactors.

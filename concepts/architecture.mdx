@@ -1,0 +1,29 @@
+---
+title: Architecture
+description: How browser UI, your backend, Unseen API, and Solana interact in a typical integration.
+sidebarTitle: Architecture
+---
+
+## Components
+
+| Layer | Role |
+| ------ | ---- |
+| **Browser (`@unseen_fi/ui`)** | Checkout modal, wallet deeplinks/QR, verification polling. May call your backend to create sessions or the public verify endpoint when given `paymentToken`. |
+| **Your backend** | Holds the API key; creates/cancels/lists payments; fulfills orders; verifies webhooks. Uses `@unseen_fi/sdk`. |
+| **Unseen API** | Payment sessions, merchant profile, verify endpoints, webhook delivery. |
+| **Solana** | On-chain settlement; verify checks transaction state. |
+
+## Security boundaries
+
+- **Never expose `usk_live_*` in client bundles.** Use `createPaymentSession` from the UI to hit your own API.
+- **Webhook bodies** must be verified with HMAC before trusting `payment.confirmed`-style events (`@unseen_fi/sdk` → `unseen.webhooks.verify`).
+
+## UI package API paths
+
+The UI uses your provider `baseUrl` and appends paths such as:
+
+- `POST /api/v1/payments` (when creating from the browser with `apiKey`)
+- `POST /api/v1/payments/:id/verify` (merchant verify, Bearer)
+- `POST /api/public/payments/:id/verify` (checkout verify, `x-unseen-payment-token`)
+
+See [Hooks and wallets](/sdk/react/hooks-wallets) for details.

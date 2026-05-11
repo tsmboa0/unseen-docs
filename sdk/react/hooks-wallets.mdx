@@ -1,0 +1,47 @@
+---
+title: React SDK — Hooks & wallets
+description: usePayment, useVerify, useUnseenConfig, and wallet deeplink helpers.
+sidebarTitle: Hooks & wallets
+---
+
+## usePayment
+
+Creates browser payments only when **`apiKey` is present on `UnseenProvider`**. Throws if missing keys for this path:
+
+```tsx
+const { payment, loading, error, createPayment } = usePayment();
+
+await createPayment({
+  amount: 50_000_000,
+  reference: "order_123",
+  description: "Plan",
+});
+```
+
+For production storefronts prefer `createPaymentSession` on `<UnseenPayButton>` wired to `@unseen_fi/sdk`.
+
+## useVerify
+
+```tsx
+const { verify, loading, status, error } = useVerify();
+
+await verify(paymentId, paymentTokenMaybe);
+```
+
+- If **`paymentToken` is supplied**, the hook calls **`POST /api/public/payments/:id/verify`** with `x-unseen-payment-token`.
+- Otherwise it requires **`apiKey`** and calls **`POST /api/v1/payments/:id/verify`** with `Authorization`.
+
+## useUnseenConfig
+
+Returns `{ apiKey, baseUrl }` from context. Throws if used outside `<UnseenProvider>`.
+
+## Wallets
+
+```ts
+import { WALLETS, getWallet } from "@unseen_fi/ui";
+
+const phantom = getWallet("phantom");
+phantom?.deeplink(checkoutUrl);
+```
+
+`deeplink(checkoutUrl)` produces wallet-specific URLs that browse to the checkout page.

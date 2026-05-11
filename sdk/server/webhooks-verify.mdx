@@ -1,0 +1,25 @@
+---
+title: Server SDK — Webhook signatures
+description: Verify X-Unseen-Signature with unseen.webhooks.verify and sign test payloads with unseen.webhooks.sign.
+sidebarTitle: Webhook signatures
+---
+
+Unseen delivers signed webhook POST bodies. Confirm authenticity before parsing JSON:
+
+```ts
+const ok = unseen.webhooks.verify(rawBodyString, signatureHeader, process.env.UNSEEN_WEBHOOK_SECRET!);
+
+if (!ok) {
+  return new Response("Invalid signature", { status: 401 });
+}
+
+const event = JSON.parse(rawBodyString);
+```
+
+- **`rawBodyString`** — the raw request payload **exactly as received**. With Express, configure a [`express.raw`-style](https://expressjs.com/en/api.html) middleware **or** `bodyParser.raw` for this route only so `req.body` is a `Buffer` you convert to UTF-8 string before verify. Do **not** verify against `JSON.stringify(req.body)` after `express.json()` already mutated the bytes.
+- **`signatureHeader`** — value of `X-Unseen-Signature` (hex HMAC-SHA256 of the raw body with your webhook secret).
+- **`secret`** — signing secret from the Unseen dashboard.
+
+## Testing
+
+`unseen.webhooks.sign(payload, secret)` reproduces the hex digest for fixtures and integration tests.

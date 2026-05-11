@@ -1,0 +1,104 @@
+---
+title: Quickstart
+description: Install @unseen_fi/sdk and @unseen_fi/ui, create a payment server-side, and embed checkout in React.
+sidebarTitle: Quickstart
+---
+
+This guide follows the **recommended** pattern: **payments are created on your server** with `@unseen_fi/sdk`, then passed into the React modal via `createPaymentSession`.
+
+## Prerequisites
+
+- Merchant API key (`usk_test_*` or `usk_live_*`)
+- Node 18+ for server code; React 18+ for UI
+
+## 1. Install packages
+
+<CodeGroup>
+
+```bash npm
+npm install @unseen_fi/sdk @unseen_fi/ui
+```
+
+```bash pnpm
+pnpm add @unseen_fi/sdk @unseen_fi/ui
+```
+
+```bash yarn
+yarn add @unseen_fi/sdk @unseen_fi/ui
+```
+
+</CodeGroup>
+
+## 2. Create a payment on the server
+
+Use `UnseenClient` with your secret key. Default API hosts follow the `network` you pass (see [Environments](/concepts/environments)).
+
+```ts server.ts
+import { UnseenClient } from "@unseen_fi/sdk";
+
+const unseen = new UnseenClient({
+  apiKey: process.env.UNSEEN_API_KEY!,
+  network: "mainnet", // or "devnet"
+});
+
+export async function createCheckoutSession(input: {
+  amount: number;
+  reference: string;
+  description?: string;
+}) {
+  return unseen.payments.create({
+    amount: input.amount,
+    reference: input.reference,
+    description: input.description,
+  });
+}
+```
+
+Expose the result to your front end as JSON (include `id`, `checkoutUrl`, `reference`, `amount`, and `paymentToken` if your API returns one).
+
+## 3. Wire the React checkout
+
+Wrap your app with `UnseenProvider` and pass a `createPaymentSession` that calls **your** endpoint (not Unseen directly from the browser with a live secret).
+
+```tsx app.tsx
+"use client";
+
+import {
+  UnseenProvider,
+  UnseenPayButton,
+} from "@unseen_fi/ui";
+
+export function Checkout() {
+  return (
+    <UnseenProvider baseUrl="https://unseen.finance">
+      <UnseenPayButton
+        amount={50_000_000}
+        reference="order_123"
+        description="Premium plan"
+        createPaymentSession={async (input) => {
+          const res = await fetch("/api/unseen/create-payment", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(input),
+          });
+          if (!res.ok) throw new Error("Failed to create session");
+          return res.json();
+        }}
+        onSuccess={(p) => console.log("Confirmed", p.txSignature)}
+      />
+    </UnseenProvider>
+  );
+}
+```
+
+`<UnseenProvider>` defaults `baseUrl` to `https://unseen.finance` if omitted. It must match the deployment your front end should call for `/api/...` routes.
+
+## 4. Confirm fulfillment
+
+- **Client:** the built-in modal polls verify after the user taps **I have paid** ([hooks](/sdk/react/hooks-wallets)).
+- **Server:** call `unseen.payments.verify(paymentId)` or handle [signed webhooks](/webhooks/overview).
+
+## Next
+
+- [Next.js recipe](/guides/nextjs-checkout) — route handler pattern
+- [Webhooks + Express](/guides/webhooks-express) — `X-Unseen-Signature` verification

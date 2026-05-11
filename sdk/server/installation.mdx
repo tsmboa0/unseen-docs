@@ -1,0 +1,43 @@
+---
+title: Server SDK — Installation
+description: Install @unseen_fi/sdk and instantiate UnseenClient for server-side payments and webhooks helpers.
+sidebarTitle: Installation
+---
+
+## Package
+
+The server SDK is published as **`@unseen_fi/sdk`**.
+
+<CodeGroup>
+
+```bash npm
+npm install @unseen_fi/sdk
+```
+
+```bash pnpm
+pnpm add @unseen_fi/sdk
+```
+
+```bash yarn
+yarn add @unseen_fi/sdk
+```
+
+</CodeGroup>
+
+Requires a modern Node runtime with global `fetch` (Node 18+).
+
+## Create a client
+
+```ts
+import { UnseenClient } from "@unseen_fi/sdk";
+
+const unseen = new UnseenClient({
+  apiKey: process.env.UNSEEN_API_KEY!,
+  network: "mainnet", // or "devnet"; see Environments below
+});
+
+// Optionally override the API host entirely:
+// new UnseenClient({ apiKey, baseUrl: "https://staging.example.com" })
+```
+
+See [Payments API](/sdk/server/client-payments) for `payments.*` methods and [Webhooks verification](/sdk/server/webhooks-verify) for `unseen.webhooks.verify`.

@@ -1,0 +1,36 @@
+---
+title: Environments
+description: networks, default base URLs for @unseen_fi/sdk versus @unseen_fi/ui, and when to override baseUrl.
+sidebarTitle: Environments
+---
+
+## Server SDK (`@unseen_fi/sdk`)
+
+`UnseenClient` accepts:
+
+- `apiKey` (required)
+- `network`: `"mainnet"` | `"devnet"` (defaults to `"devnet"`)
+- `baseUrl`: optional override for self-hosted or staging gateways
+
+When `baseUrl` is omitted, the SDK uses **per-network defaults** (currently aligned with Unseen deployment — check your installed version for exact URLs).
+
+| `network` | Typical default `baseUrl` (when not overridden) |
+| ---------- | ---------------------------------------------- |
+| `mainnet` | `https://unseen.finance` |
+| `devnet`  | `http://unseen.finance` |
+
+All REST calls are made to `{baseUrl}/api/v1/...` (and `/api/v1/merchants/me` for `me()`).
+
+## React UI (`@unseen_fi/ui`)
+
+`<UnseenProvider>`:
+
+- `baseUrl` defaults to **`https://unseen.finance`**
+- defines the **origin** used for **browser** `fetch` calls to Unseen’s HTTP API
+
+This is **not always identical** to the server SDK default in every setup. If your app talks to a staging stack, set **`baseUrl`** on the provider and **the same host** in your server SDK via `baseUrl` or `network` so both sides hit the same gateway.
+
+## Choosing a pattern
+
+- **Production:** same logical environment for UI + server; webhook URL registered in the merchant dashboard.
+- **Local development:** run your app against devnet or a local gateway; pass explicit `baseUrl` on both SDK and provider if defaults do not match your stack.

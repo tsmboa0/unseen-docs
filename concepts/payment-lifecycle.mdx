@@ -1,0 +1,32 @@
+---
+title: Payment lifecycle
+description: Payment statuses, verify outcomes, and fulfillment tips for Unseen Pay sessions.
+sidebarTitle: Payment lifecycle
+---
+
+## Session states
+
+Server types mirror the REST API. Common `status` values include:
+
+- **`pending`** — created, not yet confirmed on-chain
+- **`confirmed`** — settled and verified
+- **`expired`** — session TTL elapsed
+- **`cancelled`** — cancelled via API (only pending sessions)
+
+Use `unseen.payments.get(id)` or list filters to observe state from the server.
+
+## Verification
+
+`payments.verify(paymentId)` (server SDK) or the UI’s polling flow returns a result whose `status` can include:
+
+- **`confirmed`**
+- **`pending`**
+- **`amount_mismatch`** — amount on-chain does not match the session (treat as failure / manual review)
+
+The UI polls for a limited window after the user taps **I have paid**; if confirmation is slow, retry verify from the server or rely on webhooks.
+
+## Fulfillment checklist
+
+1. Treat **idempotency**: the same payment ID or reference may be observed more than once (retries, webhook + client).
+2. Prefer **webhooks + verify** together: webhook for push, verify for manual recovery.
+3. Store **`reference`** as your internal order or invoice key.

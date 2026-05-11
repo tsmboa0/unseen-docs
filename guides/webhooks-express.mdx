@@ -1,0 +1,45 @@
+---
+title: Guide — Express webhooks with raw bodies
+description: Verify Unseen webhook signatures in Express using the raw POST body bytes.
+sidebarTitle: Express webhooks
+---
+
+```ts express/route.ts
+import express from "express";
+import { UnseenClient } from "@unseen_fi/sdk";
+
+const app = express();
+const unseen = new UnseenClient({ apiKey: process.env.UNSEEN_API_KEY! });
+
+// Apply JSON parsers for other routes *after* webhook route is registered,
+// OR use `express.raw({ type: "application/json" })` scoped to webhook path:
+
+app.post(
+  "/webhooks/unseen",
+  express.raw({ type: "application/json" }),
+  (req, res) => {
+    const rawBody = Buffer.isBuffer(req.body) ? req.body.toString("utf8") : "";
+
+    const signature = req.get("x-unseen-signature");
+    if (
+      typeof signature !== "string" ||
+      !unseen.webhooks.verify(rawBody, signature, process.env.UNSEEN_WEBHOOK_SECRET!)
+    ) {
+      res.status(401).send("Invalid signature");
+      return;
+    }
+
+    const payload = JSON.parse(rawBody || "{}");
+
+    switch (payload.event) {
+      case "payment.confirmed":
+        fulfillOrder(payload.reference);
+        break;
+      default:
+        break;
+    }
+
+    res.sendStatus(204);
+  }
+);
+```

@@ -1,0 +1,35 @@
+---
+title: Server SDK — Errors & types
+description: UnseenApiError and exported TypeScript types from @unseen_fi/sdk.
+sidebarTitle: Errors & types
+---
+
+## UnseenApiError
+
+Thrown when the HTTP response is not successful.
+
+| Field | Meaning |
+| ----- | ------- |
+| `message` | Human-readable error string from the API. |
+| `status` | HTTP status code (e.g. 401, 404, 422). |
+| `code` | Machine-readable code (e.g. `unauthorized`). |
+| `details` | Optional structured validation or context. |
+
+```ts
+import { UnseenApiError } from "@unseen_fi/sdk";
+
+try {
+  await unseen.payments.get("pay_bad");
+} catch (e) {
+  if (e instanceof UnseenApiError) {
+    console.error(e.status, e.code, e.details);
+  }
+  throw e;
+}
+```
+
+## Exported types
+
+The package re-exports types such as `UnseenClientConfig`, `Network`, `CreatePaymentInput`, `Payment`, `PaymentStatus`, `PaymentList`, `ListPaymentsInput`, `VerifyResult`, `TxSignaturesResult`, `Pagination`, `Merchant`, and `ApiErrorBody` from the main entry.
+
+Use your editor’s “Go to definition” on imports for the canonical fields.

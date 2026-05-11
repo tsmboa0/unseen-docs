@@ -1,0 +1,19 @@
+---
+title: Webhooks overview
+description: Why webhooks matter, signature verification, and event handling tips for Unseen Pay.
+sidebarTitle: Overview
+---
+
+Incoming webhooks should always be authenticated with HMAC verification before trusting payload fields.
+
+See [Webhook signatures (SDK)](/sdk/server/webhooks-verify) for Node helpers and [Express integration](/guides/webhooks-express) for raw-body middleware.
+
+## Headers
+
+Expect `X-Unseen-Signature` with a hexadecimal HMAC digest of the **raw POST body**.
+
+## Operational guidance
+
+Handle duplicate deliveries idempotently (Unseen may retry HTTP 5xx or timeouts).
+
+Store and compare `paymentId`, `reference`, or event IDs before committing inventory.

@@ -1,0 +1,64 @@
+---
+title: Guide — Next.js checkout
+description: App Router Route Handler returning a payment session for UnseenPayButton.createPaymentSession.
+sidebarTitle: Next.js checkout
+---
+
+## Route Handler
+
+```ts next/route-handler.ts
+import { NextResponse } from "next/server";
+import { UnseenClient } from "@unseen_fi/sdk";
+
+const unseen = new UnseenClient({
+  apiKey: process.env.UNSEEN_API_KEY!,
+  network: "mainnet",
+});
+
+export async function POST(request: Request) {
+  const body = await request.json();
+  const payment = await unseen.payments.create({
+    amount: body.amount,
+    reference: body.reference,
+    description: body.description,
+    mint: body.mint,
+    expiresIn: body.expiresIn,
+  });
+  return NextResponse.json(payment);
+}
+```
+
+## Client component
+
+```tsx
+"use client";
+
+import {
+  UnseenProvider,
+  UnseenPayButton,
+} from "@unseen_fi/ui";
+
+export default function Checkout() {
+  return (
+    <UnseenProvider>
+      <UnseenPayButton
+        amount={25_000_000}
+        reference="nextjs_demo"
+        description="Starter pack"
+        createPaymentSession={(input) =>
+          fetch("/api/unseen/session", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(input),
+          }).then(async (res) => {
+            if (!res.ok) throw new Error("Session error");
+            return res.json();
+          })
+        }
+      />
+    </UnseenProvider>
+  );
+}
+```
+
+Set `process.env.UNSEEN_API_KEY` in your deployment target (never in `NEXT_PUBLIC_` vars).

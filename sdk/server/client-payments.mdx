@@ -1,0 +1,65 @@
+---
+title: Server SDK — Client & payments
+description: merchant profile (me), create/get/list/cancel payments, verify, and fetch transaction signatures.
+sidebarTitle: Client & payments
+---
+
+## Merchant profile
+
+```ts
+const merchant = await unseen.me();
+// { id, name, email, walletAddress, apiKeyPrefix, network, webhookUrl, ... }
+```
+
+## Payments resource
+
+Accessible as `unseen.payments`.
+
+| Method | Description |
+| -------| -----------|
+| `create(input)` | Create a payment session (`amount`, `reference`, optional `mint`, `expiresIn`, `successUrl`, `cancelUrl`, `webhookUrl`, `metadata`). |
+| `get(paymentId)` | Fetch session by ID. |
+| `verify(paymentId)` | Ask Unseen to confirm on-chain state. |
+| `getTxSignatures(paymentId)` | List associated transaction signatures. |
+| `list(filters?)` | Cursor-paginated list (`status`, `reference`, `limit`, `cursor`). |
+| `cancel(paymentId)` | Cancel a **pending** session. |
+
+### Create
+
+```ts
+const payment = await unseen.payments.create({
+  amount: 50_000_000,
+  reference: "order_123",
+  description: "Premium Plan",
+});
+console.log(payment.checkoutUrl);
+```
+
+Amounts use **raw token units** (e.g. smallest USDC units). Optionally pass `mint` to override default USDC for the configured network.
+
+### Verify
+
+Use after checkout or alongside webhooks:
+
+```ts
+const result = await unseen.payments.verify(payment.id);
+if (result.status === "confirmed") {
+  console.log(result.txSignature, result.reference);
+}
+```
+
+### List
+
+```ts
+const { data, pagination } = await unseen.payments.list({
+  status: "confirmed",
+  limit: 20,
+});
+
+if (pagination.hasMore && pagination.nextCursor) {
+  const nextPage = await unseen.payments.list({
+    status: "confirmed",
+    cursor: pagination.nextCursor,
+  });
+}
+```
