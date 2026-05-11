@@ -1,0 +1,3 @@
+# Draft / local-only content — see mintlify-example/docs/.mintignore
+drafts/
+*.draft.mdx

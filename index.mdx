@@ -1,58 +1,77 @@
 ---
 title: Introduction
-description: Documentation for Unseen Pay — privacy-preserving Solana checkout using @unseen_fi/sdk and @unseen_fi/ui.
+description: Why Unseen Pay exists — Solana-native payments, confidentiality, and how this documentation progresses from concepts to working code.
 sidebarTitle: Introduction
+icon: sparkles
 ---
 
-## What you get
+## Why Solana, and why payments need a gateway
 
-Unseen Pay is an integration surface for privacy-preserving payments on Solana. Developers typically combine:
+Solana gives you fast settlement, cheap fees, and a single global ledger—ideal for moving value in real time. **[Solana Pay](https://solanapay.com)** and the wider ecosystem made it straightforward to request and settle payments on-chain: wallets, QR flows, and merchant standards are mature, and developers can build checkout experiences that feel familiar to web users.
 
-- **`@unseen_fi/sdk`** — Node/server SDK for creating payments, listing sessions, verifying on-chain status, and verifying webhook signatures.
-- **`@unseen_fi/ui`** — React components for checkout UX (wallet picker, QR/deeplink flow, client verification polling).
+Those patterns are powerful for **transparent** payments—where revealing the destination, amount, and flow on-chain is acceptable.
 
-See [Quickstart](/quickstart) for an end-to-end setup.
+## The gap Unseen Pay fills
 
-## Recommended architecture
+Many products need **stronger confidentiality**: shielding counterparty or amount details from public graph analysis, meeting compliance without advertising every transfer, or simply matching user expectations from traditional card privacy.
+
+**Unseen Pay** is a **confidential payment gateway** on Solana. It sits between your application and the chain: you create **payment sessions**, your customers pay through wallets and hosted checkout flows, and Unseen helps you **verify settlement** and automate fulfillment—without turning your integration into raw, hand-rolled chain plumbing.
+
+## What you gain
+
+- **Privacy-oriented checkout** — Designed for flows where public, fully transparent payment rails are not enough.
+- **Familiar merchant model** — Sessions, references, webhooks, verify calls—similar rhythm to other payment APIs.
+- **Two official SDKs** — **`@unseen_fi/sdk`** for secure server work (create/list/verify, webhook HMAC), and **`@unseen_fi/ui`** for React checkout (modal, wallet picker, client verification).
+- **Operational hooks** — **`payment.confirmed`**-style webhooks and **`payments.verify`** so you can fulfill orders idempotently next to your own database.
+
+## Who this is for
+
+Teams building **wallets, marketplaces, SaaS billing, or gated content** on Solana who want a **hosted gateway + SDKs** rather than re-implementing confidential settlement end to end.
+
+---
+
+## How this documentation is organized
+
+Read in order—the sidebar matches this sequence so each page assumes the previous one.
+
+| Step | Page | You will |
+| ---- | ---- | -------- |
+| 1 | **Introduction** (this page) | Understand motivation, benefits, and vocabulary. |
+| 2 | [Quickstart](/quickstart) | Run the minimal server + React flow end to end. |
+| 3 | [Architecture](/concepts/architecture) | See how browser, backend, Unseen API, and Solana connect. |
+| 4 | [Environments](/concepts/environments) | Align `network`, `baseUrl`, and hosts for SDK vs UI. |
+| 5 | [Payment lifecycle](/concepts/payment-lifecycle) | Learn statuses, verify outcomes, and fulfillment habits. |
+| 6 | [Server SDK](/sdk/server/installation) | Install and call the API from Node. |
+| 7 | [Webhooks](/webhooks/overview) | Operate signed webhooks in production. |
+| 8 | [React SDK](/sdk/react/installation) | Embed checkout in your front end. |
+| 9 | [Guides](/guides/nextjs-checkout) | Apply patterns (Next.js route, Express webhook). |
+| 10 | [Troubleshooting](/troubleshooting) | Fix common errors quickly. |
+| 11 | [Changelog](/changelog) | Track doc and package releases. |
+
+Underlying pages (for example [Client & payments](/sdk/server/client-payments) or [Hooks & wallets](/sdk/react/hooks-wallets)) appear **inside** each sidebar group in the same order they should be read.
+
+---
+
+## At a glance — request flow
+
+Once you have gone through [Architecture](/concepts/architecture), this diagram will match the words you use for each hop.
 
 ```mermaid
 sequenceDiagram
   participant Browser
   participant YourAPI as Your backend
-  participant Unseen as Unseen API
+  participant Unseen as Unseen gateway
   participant Chain as Solana
 
-  Browser->>YourAPI: Request checkout / create session
-  YourAPI->>Unseen: payments.create (Bearer API key)
-  Unseen-->>YourAPI: Payment + checkoutUrl (+ paymentToken when applicable)
-  YourAPI-->>Browser: Return session to UI
-  Browser->>Unseen: Customer pays (wallet / checkout URL)
-  Browser->>Unseen: verify (public token or merchant key)
-  Unseen->>Chain: Confirmation checks
-  Unseen-->>Browser: confirmed / pending
-  Unseen->>YourAPI: Optional webhook (signed)
+  Browser->>YourAPI: Start checkout
+  YourAPI->>Unseen: Create session (secret key)
+  Unseen-->>YourAPI: Checkout URL + session fields
+  YourAPI-->>Browser: Hand off to UI / link
+  Browser->>Unseen: Customer pays (wallet / checkout)
+  Browser->>Unseen: Verify (token or merchant auth)
+  Unseen->>Chain: Confirm settlement
+  Unseen-->>Browser: Status
+  Unseen->>YourAPI: Signed webhook (optional)
 ```
 
-For production, **prefer creating payment sessions on your server** so your live API key is not shipped to the browser. Pass the session into the UI via the `createPaymentSession` prop on [`UnseenPayButton`](/sdk/react/provider-button).
-
-## Where content lives (Mintlify)
-
-Documentation is **Markdown/MDX files** in this repository. The sidebar and site settings are defined in **`docs/docs.json`** at the workspace root of this Mintlify content. Mintlify deploys from the Git branch you connect in the dashboard; if this site lives inside a monorepo, set **Documentation path** to `/docs` per [Monorepo setup](https://www.mintlify.com/docs/deploy/monorepo).
-
-<Note>
-  Visual identity comes from **`docs/docs.json`** (theme, palette, typography, logos) plus optional **`docs/style.css`**. Hosted assets live next to configuration (for example `docs/logo/light.svg`).
-  For authoring assistance in AI tools that support skills, Mintlify publishes discovery at **`https://www.mintlify.com/docs`**:  
-  `npx skills add https://www.mintlify.com/docs`  
-  (Use the `www` host; `https://mintlify.com/docs` may not expose the `.well-known` skills endpoint.)
-</Note>
-
-## Next steps
-
-<CardGroup cols={2}>
-  <Card title="Quickstart" icon="rocket" href="/quickstart">
-    Install packages and complete your first payment flow.
-  </Card>
-  <Card title="Environments" icon="settings" href="/concepts/environments">
-    API hosts, `network`, and `baseUrl` for SDK and UI.
-  </Card>
-</CardGroup>
+**Next:** [Quickstart](/quickstart)

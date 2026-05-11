@@ -4,6 +4,8 @@ description: Verify Unseen webhook signatures in Express using the raw POST body
 sidebarTitle: Express webhooks
 ---
 
+This guide extends [Webhook signatures](/sdk/server/webhooks-verify) and the [Webhooks overview](/webhooks/overview) with a canonical **Express** middleware shape so `unseen.webhooks.verify` sees the **raw** bytes.
+
 ```ts express/route.ts
 import express from "express";
 import { UnseenClient } from "@unseen_fi/sdk";
@@ -43,3 +45,5 @@ app.post(
   }
 );
 ```
+
+**Next:** [Troubleshooting](/troubleshooting) when something fails in the wild.

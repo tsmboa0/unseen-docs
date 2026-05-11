@@ -4,6 +4,8 @@ description: Common integration errors across @unseen_fi/sdk and @unseen_fi/ui.
 sidebarTitle: Troubleshooting
 ---
 
+If you followed the sections in order—from [Introduction](/index) through the [Express webhook guide](/guides/webhooks-express)—this matrix is still the quickest way back to green.
+
 | Symptom | Likely cause | Fix |
 | ------- | ----------- | --- |
 | `useUnseenConfig must be used inside UnseenProvider` | Hook outside wrapper | Wrap in `<UnseenProvider>`. |
@@ -13,3 +15,5 @@ sidebarTitle: Troubleshooting
 | Confirmation stuck polling | Blockchain delay / insufficient fee | Extend server-side retry windows; rely on webhooks |
 
 Run `mint validate` locally to catch stale MDX links after refactors.
+
+**Next:** [Changelog](/changelog)

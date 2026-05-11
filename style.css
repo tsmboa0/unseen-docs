@@ -17,6 +17,9 @@ navbar-link {
 }
 
 nav-logo img {
-  max-height: 28px;
+  max-height: 32px;
+  max-width: 200px;
   width: auto;
+  height: auto;
+  object-fit: contain;
 }

@@ -4,9 +4,9 @@ description: Why webhooks matter, signature verification, and event handling tip
 sidebarTitle: Overview
 ---
 
-Incoming webhooks should always be authenticated with HMAC verification before trusting payload fields.
+The SDK already exposes [`unseen.webhooks.verify`](/sdk/server/webhooks-verify). This page pulls back to **operational discipline**: retries, duplicates, secrets, and headers.
 
-See [Webhook signatures (SDK)](/sdk/server/webhooks-verify) for Node helpers and [Express integration](/guides/webhooks-express) for raw-body middleware.
+See [Express integration](/guides/webhooks-express) for raw-body middleware patterns.
 
 ## Headers
 
@@ -17,3 +17,5 @@ Expect `X-Unseen-Signature` with a hexadecimal HMAC digest of the **raw POST bod
 Handle duplicate deliveries idempotently (Unseen may retry HTTP 5xx or timeouts).
 
 Store and compare `paymentId`, `reference`, or event IDs before committing inventory.
+
+**Next:** [React SDK — Installation](/sdk/react/installation) once the backend path—from session creation through signed webhooks—is clear.

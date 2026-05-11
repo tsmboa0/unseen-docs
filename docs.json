@@ -3,11 +3,11 @@
   "theme": "maple",
   "name": "Unseen Pay Docs",
   "logo": {
-    "light": "/logo/light.svg",
+    "light": "/logo/wordmark-dark.png",
     "dark": "/logo/dark.svg",
     "href": "https://unseen.finance"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/favicon.png",
   "colors": {
     "primary": "#7b2fff",
     "light": "#c4b5fd",
@@ -52,13 +52,30 @@
         "label": "npm — @unseen_fi/ui",
         "href": "https://www.npmjs.com/package/@unseen_fi/ui"
       }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Quickstart",
+      "href": "/quickstart"
+    }
+  },
+  "contextual": {
+    "options": [
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
     ]
   },
   "navigation": {
     "groups": [
       {
-        "group": "Get started",
-        "icon": "play",
+        "group": "Introduction & fundamentals",
+        "icon": "notebook-text",
         "pages": [
           "index",
           "quickstart",
@@ -78,6 +95,11 @@
         ]
       },
       {
+        "group": "Webhooks",
+        "icon": "webhook",
+        "pages": ["webhooks/overview"]
+      },
+      {
         "group": "React SDK (@unseen_fi/ui)",
         "icon": "layout-template",
         "pages": [
@@ -87,13 +109,8 @@
         ]
       },
       {
-        "group": "Webhooks",
-        "icon": "webhook",
-        "pages": ["webhooks/overview"]
-      },
-      {
         "group": "Guides",
-        "icon": "book-open",
+        "icon": "map",
         "pages": ["guides/nextjs-checkout", "guides/webhooks-express"]
       },
       {

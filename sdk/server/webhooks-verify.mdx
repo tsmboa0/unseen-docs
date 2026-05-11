@@ -4,6 +4,8 @@ description: Verify X-Unseen-Signature with unseen.webhooks.verify and sign test
 sidebarTitle: Webhook signatures
 ---
 
+With `payments.verify` wired, automate fulfillment using **HTTP callbacks**. This page covers the cryptography—**before** treating any JSON blob as authoritative.
+
 Unseen delivers signed webhook POST bodies. Confirm authenticity before parsing JSON:
 
 ```ts
@@ -23,3 +25,5 @@ const event = JSON.parse(rawBodyString);
 ## Testing
 
 `unseen.webhooks.sign(payload, secret)` reproduces the hex digest for fixtures and integration tests.
+
+**Next:** [Errors & types](/sdk/server/errors-types)

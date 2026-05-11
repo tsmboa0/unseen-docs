@@ -4,6 +4,8 @@ description: usePayment, useVerify, useUnseenConfig, and wallet deeplink helpers
 sidebarTitle: Hooks & wallets
 ---
 
+Use [`UnseenPayButton`](/sdk/react/provider-button) whenever the stock modal is enough. When you need bespoke UI, **`usePayment`** and **`useVerify`** expose the same network calls the button runs under the hood.
+
 ## usePayment
 
 Creates browser payments only when **`apiKey` is present on `UnseenProvider`**. Throws if missing keys for this path:
@@ -45,3 +47,5 @@ phantom?.deeplink(checkoutUrl);
 ```
 
 `deeplink(checkoutUrl)` produces wallet-specific URLs that browse to the checkout page.
+
+**Next:** [Guide — Next.js checkout](/guides/nextjs-checkout)

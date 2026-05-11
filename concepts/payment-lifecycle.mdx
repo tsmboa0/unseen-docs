@@ -4,6 +4,8 @@ description: Payment statuses, verify outcomes, and fulfillment tips for Unseen 
 sidebarTitle: Payment lifecycle
 ---
 
+With [environments aligned](/concepts/environments), the last conceptual piece is **what happens to one session over time**. That shapes how you fulfil orders—before you memorize individual SDK calls in the next section.
+
 ## Session states
 
 Server types mirror the REST API. Common `status` values include:
@@ -30,3 +32,5 @@ The UI polls for a limited window after the user taps **I have paid**; if confir
 1. Treat **idempotency**: the same payment ID or reference may be observed more than once (retries, webhook + client).
 2. Prefer **webhooks + verify** together: webhook for push, verify for manual recovery.
 3. Store **`reference`** as your internal order or invoice key.
+
+**Next:** [Server SDK — Installation](/sdk/server/installation) — turn these states into typed API calls.

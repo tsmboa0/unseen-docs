@@ -4,6 +4,8 @@ description: merchant profile (me), create/get/list/cancel payments, verify, and
 sidebarTitle: Client & payments
 ---
 
+The SDK is installed; this page walks through **`unseen.me()`** and every **`unseen.payments.*`** helper that maps to [session states](/concepts/payment-lifecycle).
+
 ## Merchant profile
 
 ```ts
@@ -63,3 +65,5 @@ if (pagination.hasMore && pagination.nextCursor) {
   });
 }
 ```
+
+**Next:** [Webhook signatures](/sdk/server/webhooks-verify)

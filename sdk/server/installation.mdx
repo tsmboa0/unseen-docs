@@ -4,6 +4,8 @@ description: Install @unseen_fi/sdk and instantiate UnseenClient for server-side
 sidebarTitle: Installation
 ---
 
+You now know how a payment [evolves over time](/concepts/payment-lifecycle); this SDK is **how your backend creates and verifies those sessions programmatically**.
+
 ## Package
 
 The server SDK is published as **`@unseen_fi/sdk`**.
@@ -33,7 +35,7 @@ import { UnseenClient } from "@unseen_fi/sdk";
 
 const unseen = new UnseenClient({
   apiKey: process.env.UNSEEN_API_KEY!,
-  network: "mainnet", // or "devnet"; see Environments below
+  network: "mainnet", // or "devnet" — align hosts per /concepts/environments
 });
 
 // Optionally override the API host entirely:
@@ -41,3 +43,5 @@ const unseen = new UnseenClient({
 ```
 
 See [Payments API](/sdk/server/client-payments) for `payments.*` methods and [Webhooks verification](/sdk/server/webhooks-verify) for `unseen.webhooks.verify`.
+
+**Next:** [Client & payments](/sdk/server/client-payments)

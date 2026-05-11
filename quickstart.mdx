@@ -4,7 +4,7 @@ description: Install @unseen_fi/sdk and @unseen_fi/ui, create a payment server-s
 sidebarTitle: Quickstart
 ---
 
-This guide follows the **recommended** pattern: **payments are created on your server** with `@unseen_fi/sdk`, then passed into the React modal via `createPaymentSession`.
+You have the **why** from the [Introduction](/index); this page is the **shortest happy path**. Payments are created on **your server** with `@unseen_fi/sdk` and handed to the modal via **`createPaymentSession`**. When it works once, continue to [Architecture](/concepts/architecture) so every hop has a label.
 
 ## Prerequisites
 
@@ -98,7 +98,6 @@ export function Checkout() {
 - **Client:** the built-in modal polls verify after the user taps **I have paid** ([hooks](/sdk/react/hooks-wallets)).
 - **Server:** call `unseen.payments.verify(paymentId)` or handle [signed webhooks](/webhooks/overview).
 
-## Next
+## What to read next
 
-- [Next.js recipe](/guides/nextjs-checkout) — route handler pattern
-- [Webhooks + Express](/guides/webhooks-express) — `X-Unseen-Signature` verification
+The flow above is intentionally minimal. **Next**, read [Architecture](/concepts/architecture) so you can map each step to Browser / backend / gateway / Solana. After fundamentals, deepen the server SDK ([Installation](/sdk/server/installation)) and only then customise webhooks ([Webhooks overview](/webhooks/overview)) and frameworks ([Guides](/guides/nextjs-checkout)).

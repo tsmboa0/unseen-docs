@@ -4,6 +4,8 @@ description: UnseenProvider configuration and UnseenPayButton modal checkout wit
 sidebarTitle: Provider & button
 ---
 
+The package dependency is pinned; configure **`UnseenProvider`** so every hook knows your **`baseUrl`**, then mount **`UnseenPayButton`**—ideally feeding **`createPaymentSession`** wired to **`@unseen_fi/sdk`** as described under [architecture](/concepts/architecture).
+
 ## UnseenProvider
 
 Wrap any subtree that consumes Unseen hooks or components.
@@ -70,3 +72,5 @@ The returned payload must expose at least `{ id, checkoutUrl, paymentToken?, ...
 ## Wallet logos
 
 Bundled picker references `/wallets/phantom-logo.jpg`, `/wallets/solflare-logo.svg`, and `/wallets/backpack-logo.svg`. Host copies under your app's `public/` directory or adjust asset URLs in release notes for your fork.
+
+**Next:** [Hooks & wallets](/sdk/react/hooks-wallets)

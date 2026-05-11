@@ -4,6 +4,8 @@ description: networks, default base URLs for @unseen_fi/sdk versus @unseen_fi/ui
 sidebarTitle: Environments
 ---
 
+[Architecture](/concepts/architecture) showed *who* talks to whom. Here every request shares the same **`baseUrl`** (or equivalent **`network`** on the server SDK)—if these drift between browser and backend, checkout and verification will disagree in subtle ways.
+
 ## Server SDK (`@unseen_fi/sdk`)
 
 `UnseenClient` accepts:
@@ -34,3 +36,5 @@ This is **not always identical** to the server SDK default in every setup. If yo
 
 - **Production:** same logical environment for UI + server; webhook URL registered in the merchant dashboard.
 - **Local development:** run your app against devnet or a local gateway; pass explicit `baseUrl` on both SDK and provider if defaults do not match your stack.
+
+**Next:** [Payment lifecycle](/concepts/payment-lifecycle)
