@@ -4,7 +4,7 @@
   "name": "Unseen Pay Docs",
   "logo": {
     "light": "/logo/wordmark-dark.png",
-    "dark": "/logo/dark.svg",
+    "dark": "/logo/wordmark-dark.png",
     "href": "https://unseen.finance"
   },
   "favicon": "/favicon.png",
