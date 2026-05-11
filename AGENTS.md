@@ -22,4 +22,4 @@ Mintlify publishes skills from **`https://www.mintlify.com/docs`** (use the **`w
 
 ## Brand assets in this repo
 
-Navbar uses **`docs/logo/wordmark-dark.png`** (from `unseen_app/public/unseen-logo-dark.png`) for **both** light and dark Mintlify themes—`docs.json` sets `logo.light` and `logo.dark` to that file. **`docs/favicon.png`** is a resized `unseen-icon.png`. Re-copy from `unseen_app/public/` when marketing ships new files.
+Navbar uses **`docs/logo/wordmark-dark.png`** (from `unseen_app/public/unseen-logo-dark.png`) for **both** light and dark Mintlify themes—`docs.json` sets `logo.light` and `logo.dark` to that file. **`docs/favicon.png`** is exported from **`unseen_app/public/unseen-icon.png`** (512px on the longest side; regenerate with `sips -Z 512 unseen_app/public/unseen-icon.png --out docs/favicon.png` after art updates).
